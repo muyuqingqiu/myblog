@@ -1,0 +1,13 @@
+extends layout
+block body
+	.signin-main
+		.form-wrap
+			form#signin-form(method="post" enctype="multipart/form-data")
+				.field.required
+					label 用户名
+					input(type="text" placeholder="请输入用户名" name="username")
+				.field.required
+					label 密码
+					input(type="password" placeholder="请输入密码" name="password")
+				input.btn.signin-btn(type="submit" value="登录")
+	include footer

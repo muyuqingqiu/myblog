@@ -1,0 +1,33 @@
+extends layout
+block body
+	.signup-main
+		.form-wrap
+			form#signup-form(method="post" enctype="multipart/form-data")
+				.required.filed
+					label 用户名
+					input(type="text" placeholder="请输入用户名" name="username")
+				.required.filed
+					label 密码 
+					input(type="password" placeholder="请输入密码" name="password")
+				.required.filed
+					label 重复密码
+					input(type="password" placeholder="请输入重复密码" name="repassword")
+				.required.filed
+					label 性别
+					div
+						input#m(type="radio" name="gender" value="m" checked="checked")
+						label(for="m") 男
+					div
+						input#f(type="radio" name="gender" value="f")
+						label(for="f") 女
+					div
+						input#x(type="radio" name="gender" value="x")
+						label(for="x") 保密
+				.required.filed
+					label 头像
+					input(type="file" name="avatar")
+				.required.filed
+					label 个人简介
+					textarea(name="bio" rows="5")
+				input.btn.signup(type="submit" value="注册")
+	include footer
