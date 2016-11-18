@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var formidable = require('express-formidable');
 var util = require('util');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
@@ -25,6 +26,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
 	extended: false
 }));
+//处理表单及文件上传的中间件
+app.use(formidable({
+	uploadDir: path.join(__dirname,'public/images'), //上传文件目录
+	keepExtensions:true //保留后缀
+}))
 app.use(cookieParser());
 //托管静态资源文件
 app.use(express.static(path.join(__dirname, 'public')));
@@ -42,14 +48,8 @@ app.use(session({
 // flash 中间价，用来显示通知
 app.use(flash());
 
-//处理表单及文件上传的中间件
-app.use(require('express-formidable')({
-	uploadDir: path.join(__dirname,'public/images'), //上传文件目录
-	keepExtensions:true //保留后缀
-	
-}))
 
-
+//设置视图页面默认信息
 app.locals.blog = {
 	name: pkg.name,
 	description: pkg.description
