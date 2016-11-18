@@ -1,4 +1,7 @@
 extends layout
+block head
+	<script src="/javascripts/uploadPreview.js"></script>
+	<link rel="stylesheet" href="/stylesheets/signup.css" />
 block body
 	.signup-main
 		.form-wrap
@@ -25,9 +28,13 @@ block body
 						label(for="x") 保密
 				.required.filed
 					label 头像
-					input(type="file" name="avatar")
+					#div-show
+						img#img-show
+					input#show-btn(type="file" name="avatar")
 				.required.filed
 					label 个人简介
 					textarea(name="bio" rows="5")
 				input.btn.signup(type="submit" value="注册")
 	include footer
+	<script src="/javascripts/signup.js"></script>
+block foot
