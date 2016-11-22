@@ -7,7 +7,16 @@ var PostModel = require('../models/posts');
 // eg:GET/posts?author=xxx
 
 router.get('/',function(req,res,next){
-	res.render('posts');
+	var author = req.query.author;
+	PostModel.getPosts(author)
+	.then(function(posts){
+		console.log(posts);
+		res.render('posts',{
+			posts: posts
+		});
+	})
+	.catch(next);
+	
 })
 //GET /posts/create 发表文章页
 router.get('/create',checkLogin,function(req,res,next){
@@ -41,7 +50,7 @@ router.post('/',checkLogin,function(req,res,next){
 		//此psot是插入mongodb后的值，包含_id
 		post = result.ops[0];
 		req.flash('success','发表成功');
-		res.redirect('/posts/$(post._id)');
+		res.redirect(`/posts/${post._id}`);
 	})
 	.catch(next);
 })
@@ -50,11 +59,38 @@ router.post('/',checkLogin,function(req,res,next){
 
 //GET /posts/:postId 单独一篇文章页
 router.get('/:postId',function(req,res,next){
-	res.send(req.flash());
+	var postId = req.params.postId;	//获取get的参数
+	Promise.all([
+		PostModel.getPostById(postId),//获取文章信息
+		PostModel.incPv(postId)//pv加1
+	]).then(function(result){
+		var post = result[0];
+		if(!post){
+			throw new Error('改文章不存在!');
+		}
+		res.render('post',{
+			post:post
+		})
+		.catch(next);
+	})
 })
 // GET /posts/:postId/edit 更新文章页
 router.get('/:postId/edit', checkLogin, function(req, res, next) {
-  res.send(req.flash());
+	var postId = req.params.postId;
+	var author = req.session.user._id;
+	PostModel.getRawPostById(postId)
+	.then(function(post){
+		if(!post){
+			throw new Error('改文章不存在');
+		}
+		if(author.toString() !== post.author._id.toString()){
+			throw new Error('权限不足');
+		}
+		res.render('edit',{
+			post:post
+		})
+	})
+	.catch(next);
 });
 
 // POST /posts/:postId/edit 更新一篇文章

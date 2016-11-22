@@ -8,7 +8,7 @@ module.exports = {
 	getUserByName: function(username){
 		return User
 			.findOne({username:username})
-			.addCreateAt()
+			.addCreatedAt()
 			.exec();
 	}
 }

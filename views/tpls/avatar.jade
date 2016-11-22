@@ -1,0 +1,5 @@
+.avatar
+	a(href="/posts/?author=#{user._id}"
+	data-title="#{user.username} | #{({m:'男',f:'女',x:'保密'})[user.gender]}"
+	data-content="#{user.bio}")
+		img.avatar(src="/images/#{user.avatar}")

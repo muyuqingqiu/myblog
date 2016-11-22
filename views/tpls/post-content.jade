@@ -1,0 +1,17 @@
+.post-content
+	a.avatar(href="/posts?author=#{post.author._id}"
+			data-title="#{post.author.username} | #{({m:'男',f:'女',x:'保密'})[post.author.gender]}"
+			data-content="#{post.author.bio}")
+		img.avatar(src="/images/#{post.author.avatar}")
+		p #{post.author.username}
+	.post-main
+		h3
+			a(href="/posts/#{post._id}") #{post.title}
+		pre!= post.content
+		span.pv 浏览 #{post.pv}
+		if(user && post.author._id && user._id.toString() === post.author._id.toString())
+			.post-menu
+				.item
+					a.edit(href="/posts/#{post._id}/edit") 编辑
+				.item
+					a.remove(href="/posts/#{post._id}/remove") 删除

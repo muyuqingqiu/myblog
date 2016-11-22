@@ -4,4 +4,6 @@ block head
 block body
 	p 这是主页
 	<a href="/posts/create">发表文章</a>
-	include footer
+	.posts-list
+		each post, i in posts 
+			include tpls/post-content
