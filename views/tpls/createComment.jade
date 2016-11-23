@@ -1,0 +1,5 @@
+.comment-form-wrap
+	form.comment-form(method="post" action="/posts/#{post._id}/comment")
+		.field.required
+			textarea(name="content" rows="15")
+		input.btn.createpost-btn(type="submit" value="留言")

@@ -2,3 +2,11 @@ extends layout
 block body
 	.post-main
 		include tpls/post-content
+		span 留言数#{post.commentsCount}
+	.comment-main
+		if(comments[0])
+			each comment, i in comments	
+				include tpls/comment
+		else
+			p 暂无留言
+	include tpls/createComment		

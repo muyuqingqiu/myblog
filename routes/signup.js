@@ -16,7 +16,9 @@ router.post('/', checkNotLogin, function(req, res, next) {
 	var username = req.fields.username;
 	var gender = req.fields.gender;
 	var bio = req.fields.bio;
-	var avatar = req.files.avatar.path.split(path.sep).pop();
+	if(req.files.avatar){
+		var avatar = req.files.avatar.path.split(path.sep).pop();
+	}
 	var password = req.fields.password;
 	var repassword = req.fields.repassword;
 
@@ -31,7 +33,7 @@ router.post('/', checkNotLogin, function(req, res, next) {
 		if(!(bio.length >= 1 && bio.length <= 30)) {
 			throw new Error('个人简介请限制在1-30个字符内');
 		}
-		if(!req.files.avatar.name) {
+		if(!req.files.avatar) {
 			throw new Error('请上传头像');
 		}
 		if(password.length < 6) {

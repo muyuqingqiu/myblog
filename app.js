@@ -17,18 +17,18 @@ var routes = require('./routes');
 // view engine setup 视图路径与模板选择
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-
+//托管静态资源文件
+app.use(express.static(path.join(__dirname, 'public')));
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 //处理表单及文件上传的中间件
 app.use(formidable({
 	uploadDir: path.join(__dirname,'public/images'), //上传文件目录
 	keepExtensions:true //保留后缀
 }))
+//cookie
 app.use(cookieParser());
-//托管静态资源文件
-app.use(express.static(path.join(__dirname, 'public')));
 //session中间件
 app.use(session({
 	name: config.session.key, // 设置 cookie 中保存 session id 的字段名称
@@ -42,8 +42,6 @@ app.use(session({
 }));
 // flash 中间价，用来显示通知
 app.use(flash());
-
-
 //设置视图页面默认信息
 app.locals.blog = {
 	name: pkg.name,

@@ -2,8 +2,8 @@ extends layout
 block head
 	meta( type='keyword' content='haha')
 block body
-	p 这是主页
 	<a href="/posts/create">发表文章</a>
 	.posts-list
 		each post, i in posts 
 			include tpls/post-content
+			span 留言数#{post.commentsCount}

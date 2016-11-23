@@ -3,11 +3,12 @@ block head
 block body
 	include tpls/avatar
 	.editpost-form-wrap
-		form.editpost-form
+		form.editpost-form(method="post")
 			.field.required
 				label 标题
 				input( name="title" type="text" value="#{post.title}")
 			.field.required
 				label 内容
-				textarea( name="content" rows="15") #{post.content}	
+				textarea( name="content" rows="15") #{post.content}
+			input.btn.editpost-btn(type="submit" value="提交")
 block foot

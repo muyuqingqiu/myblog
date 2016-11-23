@@ -1,0 +1,7 @@
+.comment-wrap
+	-user = comment.author
+	include avatar
+	p!=comment.content
+	p ——#{comment.author.username}
+		em 留言于
+		=comment.created_at
