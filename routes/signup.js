@@ -2,15 +2,12 @@ var express = require('express');
 var router = express.Router();
 var path = require('path');
 var sha1 = require('sha1');
-
 var UserModel = require('../models/users');
 var checkNotLogin = require('../middlewares/check').checkNotLogin;
-
 // GET /signup 注册页
 router.get('/', checkNotLogin, function(req, res, next) {
-	res.render('signup');
+	return res.render('signup');
 });
-
 // POST /signup 用户注册
 router.post('/', checkNotLogin, function(req, res, next) {
 	var username = req.fields.username;
@@ -21,7 +18,6 @@ router.post('/', checkNotLogin, function(req, res, next) {
 	}
 	var password = req.fields.password;
 	var repassword = req.fields.repassword;
-
 	//校验参数
 	try {
 		if(!(username.length >= 1 && username.length <= 10)) {
@@ -48,7 +44,6 @@ router.post('/', checkNotLogin, function(req, res, next) {
 	}
 	//明文密码加密
 	password = sha1(password);
-
 	//待写入的用户信息
 	var user = {
 			username: username,
@@ -68,7 +63,7 @@ router.post('/', checkNotLogin, function(req, res, next) {
 			//写入flash
 			req.flash('success', '注册成功');
 			//跳转到首页
-			res.redirect('/posts');
+			return res.redirect('/posts');
 		})
 		.catch(function(e) {
 			//用户名被占用则跳回注册页，而不是错误页
@@ -78,7 +73,6 @@ router.post('/', checkNotLogin, function(req, res, next) {
 			}
 			next(e);
 		})
-
 });
 
 module.exports = router;

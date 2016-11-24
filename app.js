@@ -26,7 +26,7 @@ app.use(logger('dev'));
 app.use(formidable({
 	uploadDir: path.join(__dirname,'public/images'), //上传文件目录
 	keepExtensions:true //保留后缀
-}))
+}));
 //cookie
 app.use(cookieParser());
 //session中间件
@@ -46,16 +46,15 @@ app.use(flash());
 app.locals.blog = {
 	name: pkg.name,
 	description: pkg.description
-}
+};
 app.use(function(req,res,next){
 	res.locals.user = req.session.user;
 	res.locals.success = req.flash('success').toString();
 	res.locals.errors = req.flash('error').toString();
 	next();
-})
+});
 // 路由
 routes(app);
-
 app.listen(config.port, function () {
 	console.log(`${pkg.name} listening on port ${config.port}`);
 });

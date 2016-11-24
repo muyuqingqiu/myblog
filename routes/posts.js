@@ -6,13 +6,14 @@ var PostModel = require('../models/posts');
 var CommentModel  =require('../models/comment');
 //GET /posts 所有用户或者特定用户的文章页
 // eg:GET/posts?author=xxx
-
 router.get('/',function(req,res,next){
 	var author = req.query.author;
 	PostModel.getPosts(author)
 	.then(function(posts){
 		res.render('posts',{
-			posts: posts
+			posts: posts,
+			title: '主页',
+			pageTestScript: 'qa/tests-posts.js'
 		});
 	})
 	.catch(next);
@@ -50,13 +51,10 @@ router.post('/',checkLogin,function(req,res,next){
 		//此psot是插入mongodb后的值，包含_id
 		post = result.ops[0];
 		req.flash('success','发表成功');
-		res.redirect(`/posts/${post._id}`);
+		return res.redirect(`/posts/${post._id}`);
 	})
 	.catch(next);
 })
-
-
-
 //GET /posts/:postId 单独一篇文章页
 router.get('/:postId',function(req,res,next){
 	var postId = req.params.postId;	//获取get的参数
@@ -67,11 +65,10 @@ router.get('/:postId',function(req,res,next){
 	]).then(function(result){
 		var post = result[0];
 		var comments = result[1];
-		console.log(post)
 		if(!post){
 			throw new Error('改文章不存在!');
 		}
-		res.render('post',{
+		return res.render('post',{
 			post: post,
 			comments: comments
 		})
@@ -122,11 +119,10 @@ router.post('/:postId/edit', checkLogin, function(req, res, next) {
 	.then(function(result){
 		if(result){
 			req.flash('success','更新成功');
-			res.redirect(`/posts/${postId}`);
+			return res.redirect(`/posts/${postId}`);
 		}
 	})
 });
-
 // GET /posts/:postId/remove 删除一篇文章
 router.get('/:postId/remove', checkLogin, function(req, res, next) {
 	var postId = req.params.postId;
@@ -134,10 +130,9 @@ router.get('/:postId/remove', checkLogin, function(req, res, next) {
 	PostModel.delPostById(postId,author)
 	.then(function(result){
 		req.flash('success','删除成功');
-		res.redirect('/posts');
+		return res.redirect('/posts');
 	})
 });
-
 // POST /posts/:postId/comment 创建一条留言
 router.post('/:postId/comment', checkLogin, function(req, res, next) {
 	var content = req.fields.content;
@@ -149,7 +144,7 @@ router.post('/:postId/comment', checkLogin, function(req, res, next) {
 		}
 	}catch(e){
 		req.flash('error',e.message);
-		res.redirect('back');
+		return res.redirect('back');
 	}
 	var comment = {
 		content: content,
@@ -159,16 +154,14 @@ router.post('/:postId/comment', checkLogin, function(req, res, next) {
 	CommentModel.createComment(comment)
 	.then(function(result){
 		req.flash('success','留言成功');
-		res.redirect(`/posts/${postId}`);
+		return res.redirect(`/posts/${postId}`);
 	})
 	.catch(next);
 });
-
 // GET /posts/:postId/comment/:commentId/remove 删除一条留言
 router.get('/:postId/comment/:commentId/remove', checkLogin, function(req, res, next) {
-  res.send(req.flash());
+  return res.send(req.flash());
 });
-
 module.exports = router;
 
 

@@ -15,27 +15,6 @@ Post.plugin('contentToHtml',{
 		return post;
 	}
 })
-//Post.plugin('addCommentsCount',{
-//	afterFind: function(posts){
-//		return Promise.all(posts.map(function(post){
-//			return CommentModel.getCommentsCount(post._id)
-//				.then(function(count){
-//					post.commentCount = count;
-//					return post;
-//				});
-//		}));
-//	},
-//	afterFindOne: function(post){
-//		if(post){
-//			return CommentModel.getCommentsCount(post._id)
-//			.then(function(count){
-//				post.CommentsCount = count;
-//				return post;
-//			})
-//		}
-//		return post;
-//	}
-//})
 Post.plugin('addCommentsCount', {
   afterFind: function (posts) {
     return Promise.all(posts.map(function (post) {

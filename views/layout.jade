@@ -1,11 +1,26 @@
 doctype html
 html
 	head
-		title= title
+		title=title
 		block head
 		link(rel='stylesheet', href='/stylesheets/style.css')
+		if(showTests)
+			link(rel="stylesheet" href="/vendor/mocha.css")
+			script(src="//cdn.bootcss.com/jquery-compat/3.0.0-alpha1/jquery.js")
 	body
 		include tpls/header
 		block body
 		include tpls/footer
+		if(showTests)
+			#mocha
+			script(src="/vendor/mocha.js")
+			script(src="/vendor/chai.js")
+			script.
+				mocha.ui('tdd');
+				var assert = chai.assert;
+			script(src="/qa/tests-global.js")
+			if(pageTestScript)
+				script(src="#{pageTestScript}")
+			script.
+				mocha.run();
 		block foot
