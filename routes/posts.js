@@ -10,6 +10,7 @@ router.get('/',function(req,res,next){
 	var author = req.query.author;
 	PostModel.getPosts(author)
 	.then(function(posts){
+		console.log('posts');
 		res.render('posts',{
 			posts: posts,
 			title: '主页',

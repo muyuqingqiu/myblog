@@ -26,12 +26,17 @@
     "mongolass": "^2.3.2",
     "morgan": "~1.7.0",
     "objectid-to-timestamp": "^1.3.0",
+    "restc": "0.0.2",
     "serve-favicon": "~2.3.0",
     "sha1": "^1.1.1",
     "winston": "^2.3.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "grunt": "^1.0.1",
+    "grunt-cafe-mocha": "^0.1.13",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-exec": "^1.0.1",
     "mocha": "^3.1.2"
   }
 }
