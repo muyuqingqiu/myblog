@@ -22,11 +22,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 // uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
-//处理表单及文件上传的中间件
-app.use(formidable({
-	uploadDir: path.join(__dirname,'public/images'), //上传文件目录
-	keepExtensions:true //保留后缀
-}));
 //cookie
 app.use(cookieParser());
 //session中间件
@@ -42,6 +37,11 @@ app.use(session({
 }));
 // flash 中间价，用来显示通知
 app.use(flash());
+//处理表单及文件上传的中间件
+//app.use(formidable({
+//	uploadDir: path.join(__dirname,'public/images'), //上传文件目录
+//	keepExtensions:true //保留后缀
+//}));
 //设置视图页面默认信息
 app.locals.blog = {
 	name: pkg.name,
@@ -53,6 +53,7 @@ app.use(function(req,res,next){
 	res.locals.errors = req.flash('error').toString();
 	next();
 });
+
 // 路由
 routes(app);
 app.listen(config.port, function () {
